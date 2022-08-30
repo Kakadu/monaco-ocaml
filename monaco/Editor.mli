@@ -58,6 +58,9 @@ val add_command
   -> (unit -> unit)
   -> string option
 
+val set_value : t -> string -> unit
+val get_value : t -> string
+
 (* TODO: val createContextKey : key:string -> defaultValue:'a -> 'a ContextKey.t *)
 
 val add_action
@@ -81,5 +84,6 @@ val layout : ?dimension:Dimension.t -> t -> unit
 *)
 module Highlight : sig
   val range1 : t -> line1:int -> col1:int -> line2:int -> col2:int -> unit
+  val line : t -> int -> unit
   (* val highlight_many : t -> line1:int -> col1:int -> line2:int -> col2:int -> unit *)
 end
