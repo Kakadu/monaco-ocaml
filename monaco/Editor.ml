@@ -73,15 +73,15 @@ let add_command editor ~keybinding ?context command_handler =
 ;;
 
 let add_action
-    ~id
-    ~label
-    ~run
-    ?precondition
-    ?keybindings
-    ?keybinding_context
-    ?context_menu_group_id
-    ?context_menu_order
-    editor
+  ~id
+  ~label
+  ~run
+  ?precondition
+  ?keybindings
+  ?keybinding_context
+  ?context_menu_group_id
+  ?context_menu_order
+  editor
   =
   let descriptor =
     Jv.obj [| "id", Jv.of_string id; "label", Jv.of_string label; "run", run |]
@@ -102,3 +102,35 @@ let layout ?dimension editor =
   in
   ignore @@ Jv.call editor "layout" args
 ;;
+
+module Highlight = struct
+  let range1 editor ~line1 ~col1 ~line2 ~col2 =
+    Console.(log [ str editor ]);
+    let open Jv in
+    let range =
+      Printf.printf "%s %d\n" __FILE__ __LINE__;
+      let constr = get (get Jv.global "monaco") "Range" in
+      Printf.printf "%s %d\n" __FILE__ __LINE__;
+      new' constr [| Jv.of_int line1; Jv.of_int col1; Jv.of_int line2; Jv.of_int col2 |]
+    in
+    Printf.printf "%s %d\n" __FILE__ __LINE__;
+    let make_range =
+      Jv.obj
+        [| "range", range
+         ; "options", Jv.obj [| "inlineClassName", Jv.of_string "myInlineDecoration" |]
+        |]
+    in
+    let args =
+      [| Jv.of_array (fun _ -> assert false) [||]
+       ; Jv.of_array (fun x -> x) [| make_range |]
+      |]
+    in
+    ignore @@ Jv.call editor "deltaDecorations" args
+  ;;
+
+  (* let many editor ~ranges =
+
+    let new_ranges =
+      Jv.of_array (fun x -> x) ranges
+    in *)
+end

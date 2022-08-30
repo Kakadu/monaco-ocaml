@@ -79,3 +79,7 @@ val layout : ?dimension:Dimension.t -> t -> unit
   * updateOptions(newOptions: IEditorOptions & IGlobalEditorOptions): void;
   * addAction(descriptor: IActionDescriptor): IDisposable;
 *)
+module Highlight : sig
+  val range1 : t -> line1:int -> col1:int -> line2:int -> col2:int -> unit
+  (* val highlight_many : t -> line1:int -> col1:int -> line2:int -> col2:int -> unit *)
+end
